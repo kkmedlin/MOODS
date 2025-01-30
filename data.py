@@ -13,19 +13,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 def abalone():
 #This should work for datasets #0-4
 #initial download
-    urlist=['https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/page-blocks-1-3_vs_4.dat',\
-        'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/ecoli4.dat',\
-            'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/poker-8_vs_6.dat',\
-                'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/winequality-red-8_vs_6.dat',\
-                    'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/yeast-2_vs_4.dat',\
-                        'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/abalone_csv.csv',\
-        'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/ionosphere_data_kaggle.csv',\
-            'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/realspambase%20(1).data',\
-                ['https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/SHUTTLE/shuttle%20(1).trn']]
-    
-    option = 5
-    #import pandas as pd
-    url=urlist[option]
+   
+    url='https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/abalone_csv.csv'
     data = pd.read_csv(url, sep=",", header='infer' )
     
     category = np.repeat("empty000", data.shape[0])
@@ -90,12 +79,8 @@ def abalone():
 def spamBase():
 #This should work for datasets #0-4
 #initial download
-    urlist=['https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/page-blocks-1-3_vs_4.dat','https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/ecoli4.dat','https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/poker-8_vs_6.dat','https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/winequality-red-8_vs_6.dat','https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/yeast-2_vs_4.dat','https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/abalone_csv.csv',
-       'https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/ionosphere_data_kaggle.csv','https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/realspambase%20(1).data',['https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/SHUTTLE/shuttle%20(1).trn','https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/SHUTTLE/shuttle%20(1).tst']]
-
-    option = 7
     import pandas as pd
-    url=urlist[option]
+    url='https://raw.githubusercontent.com/sydney-machine-learning/GANclassimbalanced/main/DATASETS/realspambase%20(1).data'
     data = pd.read_csv(url, sep=",", header='infer' )
     dict_1={}
     dict_1=dict(data.corr()['1'])
