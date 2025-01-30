@@ -9,8 +9,8 @@ from imblearn.over_sampling import SVMSMOTE
 from numpy import array
 import math
 import matplotlib.pyplot as plt
-# select smallData for Ionosphere
-# select data for Gisette Abalone Spambase Shuttle Connect4 
+# select smallData for Ecoli Winequality Yeast
+# select data for Abalone Spambase Shuttle Connect4 
 
 #from smallData import Our_Dataset
 from data import Our_Dataset
