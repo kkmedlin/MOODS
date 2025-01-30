@@ -12,7 +12,6 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 class Basic_DNN(nn.Module):
     def __init__(self, X, lr = 0.0001):
         super().__init__()
-        #print("X shape 1:", X.shape[1])
         self.hidden1 = nn.Linear(X.shape[1],256)
         self.hidden2 = nn.Linear(256, 128)
         self.relu = nn.ReLU()
@@ -21,10 +20,6 @@ class Basic_DNN(nn.Module):
         self.optimizer = optim.Adam(self.parameters(), lr=lr) 
     
     def predict(self, xb):
-        #forward = self.forward(xb)
-        #hat = torch.argmax(self.forward(xb), dim=1)
-        #print("predict argmax forward hat:", hat)
-        #print("hat shape:", hat.shape)
         return torch.argmax(self.forward(xb), dim=1)
 
     def forward(self, x):  
@@ -32,10 +27,7 @@ class Basic_DNN(nn.Module):
         x = self.hidden2(x)
         x = self.relu(x)
         x = self.output(x)
-        #print("output:", x)
         x = self.softmax(x) 
-        #print("softmax:", x)
-        #print("softmax shape:", x.shape)
         return x
     
     def zValue(self, x):  
@@ -43,9 +35,6 @@ class Basic_DNN(nn.Module):
         x = self.hidden2(x)
         x = self.relu(x)
         x = self.output(x)
-        #print("output:", x)
-        #print("softmax:", x)
-        #print("softmax shape:", x.shape)
         return x
     
     def metrics(self, xb, yb): 
@@ -71,33 +60,26 @@ class Basic_DNN(nn.Module):
     def effOneAverage(self, xb, yb):
         yhat = self.predict(xb.to(device)).detach().cpu()
         F1_scoreAverage = f1_score(yb, yhat, average='macro')
-        #print("F1:",F1_scoreAverage)
-        #print("F1 type:",F1_scoreAverage.dtype)
         return F1_scoreAverage
     
     def precisionMinority(self, xb, yb):
         yhat = self.predict(xb.to(device)).detach().cpu()
         precisionMinority = precision_score(yb, yhat, zero_division=0.0)
-        #print("precisionMinority:",precisionMinority)
         return precisionMinority
 
     def precisionAverage(self, xb, yb):
         yhat = self.predict(xb.to(device)).detach().cpu()
         precisionAverage = precision_score(yb, yhat, zero_division=0.0, average='macro')
-        #print("precisionAverage:",precisionAverage)
-        #print("precision type:",precisionAverage.dtype)
         return precisionAverage
         
     def recallMinority(self, xb, yb):
         yhat = self.predict(xb.to(device)).detach().cpu()
         recallMinority = recall_score(yb, yhat)
-        #print("recallMinority:",recallMinority)
         return recallMinority
 
     def recallAverage(self, xb, yb):
         yhat = self.predict(xb.to(device)).detach().cpu()
         recallAverage = recall_score(yb, yhat, average='macro')
-        #print("recallAverage:",recallAverage)
         return recallAverage
     
     def areaUnder(self, xb, yb):
@@ -106,7 +88,7 @@ class Basic_DNN(nn.Module):
         return auc
     
     def loss(self, xb, yb):
-        #non-normalized version for computing majority loss
+        #non-normalized version 
         return F.cross_entropy(self.forward(xb.to(device)), yb.to(device), reduction='none').detach().cpu()
     
     def loss_J(self, xb, yb):
@@ -125,22 +107,12 @@ class Basic_DNN(nn.Module):
                 self.optimizer.zero_grad()
                 loss.backward()
                 theta = self.parameters()
-                
                 norm2GradientSquared = 0.0
-                #print("epoch:", epochs)
                 for param in theta:
-                    #print("theta:", theta)
-                    #print("param:", param)
                     norm2GradientSquared += (torch.linalg.norm(param.grad))**2
-                    #print("param.grad:", param.grad)
-                    #paramGrad = param.grad
-                    #print("param shape:", param.grad.shape)
-                    #print("norm2GradientSquared:", norm2GradientSquared)
-                
                 norm2Gradient = torch.sqrt(norm2GradientSquared.detach().cpu())
-                #print()
+   
                 self.optimizer.step()   
             epochs = epochs + 1
-        #return paramGrad
         return norm2Gradient
     

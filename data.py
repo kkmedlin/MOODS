@@ -10,48 +10,6 @@ from model import Basic_DNN
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-
-def Gisette():
-    #load training and validating data from UCI with pandas
-    x_train_np = pd.read_csv('../MCMCclassification/data4MCMC/gisette/gisette_train.data', sep = " ", header=None)
-    x_train_np = x_train_np.drop(5000, axis=1)
-    x_train_np = x_train_np/1000
-    y_train_np = pd.read_csv('../MCMCclassification/data4MCMC/gisette/gisette_train.labels', sep=" ", header=None)
-
-    #create test data from train data
-    x_train_np, x_test_np, y_train_np, y_test_np = train_test_split(x_train_np, y_train_np, test_size=0.40, random_state=0)
-    x_test_np, x_valid_np, y_test_np, y_valid_np = train_test_split(x_test_np, y_test_np, test_size=0.50, random_state=0)
-    print(x_train_np.shape, x_test_np.shape, x_valid_np.shape)
-    print(y_train_np.shape, y_test_np.shape, y_valid_np.shape)
-    
-    #pandas dataframe --> numpy ndarray
-    #majority: -1-->0; minority: remains "1"
-    x_train_np = x_train_np.to_numpy()
-    x_train_np = x_train_np.astype(np.float32)
-    y_train_np = y_train_np.to_numpy()
-    y_train_np = y_train_np.astype(np.float32)
-    y_train_np[y_train_np==-1]=0
-    y_train_np = y_train_np.flatten()
-    print("y_train_np head:", y_train_np[0:9])
-
-    x_test_np = x_test_np.to_numpy()
-    x_test_np = x_test_np.astype(np.float32)
-    y_test_np = y_test_np.to_numpy()
-    y_test_np = y_test_np.astype(np.float32)
-    y_test_np[y_test_np == -1 ]=0
-    y_test_np = y_test_np.flatten()
-    print("y_test_np head:", y_test_np[0:9])
-    
-    x_valid_np = x_valid_np.to_numpy()
-    x_valid_np = x_valid_np.astype(np.float32)
-    y_valid_np = y_valid_np.to_numpy()
-    y_valid_np = y_valid_np.astype(np.float32)
-    y_valid_np[y_valid_np == -1 ]=0
-    y_valid_np = y_valid_np.flatten()
-    print("y_valid_np head:", y_valid_np[0:9])
-
-    return x_train_np, y_train_np, x_test_np, y_test_np, x_valid_np, y_valid_np
-
 def abalone():
 #This should work for datasets #0-4
 #initial download
@@ -227,8 +185,8 @@ def shuttle():
 def connect4():
     
     #initial download
-    data = pd.read_csv("C:/Users/kamed/Desktop/argonne_K/git/data4MCMC/SMOTEgan_datasets/c4_game_database.csv", sep=",", header='infer')
-    #data = pd.read_csv("/nas/longleaf/home/k8medlin/paper2/balboF1score/Connect4/SMOTEgan_datasets/c4_game_database.csv", sep=",", header='infer')
+    data = pd.read_csv("C:/Users/.../c4_game_database.csv", sep=",", header='infer')
+    
     #make majority and minority data
     data_neg1 = data[data.winner==-1]
     data_1 = data[data.winner==1] 
@@ -291,7 +249,6 @@ def pytorch_prep(x_train_np, y_train_np, x_test_np, y_test_np, x_valid_np, y_val
     y_test = torch.from_numpy(y_test_np)
     x_valid = torch.from_numpy(x_valid_np)
     y_valid = torch.from_numpy(y_valid_np)
-    print("TRAIN, TEST, VALID: y train shape, y test shape, y valid shape:", y_train.shape, y_test.shape, y_valid.shape)
     return  x_train, y_train, x_test, y_test, x_valid, y_valid, y_train_np, y_test_np, y_valid_np
     
 
@@ -301,25 +258,13 @@ def create_imbalanced_samplers(x_train, y_train, x_test, y_test, x_valid, y_vali
 #def create_imbalanced_samplers(x_train, y_train, x_test, y_test, x_valid, y_valid, y_train_np, y_test_np, y_valid_np):
     #getting indices from Numpy imported data 
     majority_train_indices = np.asarray(np.where(y_train_np == 0)).flatten()
-    print("majority train size:", round(len(majority_train_indices)))
     minority_train_indices = np.asarray(np.where(y_train_np == 1)).flatten()                     
-    #minority_train_size = round(len(minority_train_indices)*0.1)
-    #print("minority train size:", minority_train_size)
-    #minority_train_indices = np.random.choice(np.asarray((np.where(y_train_np == 1))).flatten(),size = minority_train_size)
 
     majority_test_indices = np.asarray(np.where(y_test_np == 0)).flatten()
     minority_test_indices = np.asarray(np.where(y_test_np == 1)).flatten()                 
-    #minority_test_size = round(len(minority_test_indices)*0.1)
-    #minority_test_indices = np.random.choice(np.asarray((np.where(y_test_np == 1))).flatten(),size = minority_test_size)
-    print("yTEST: ")
-    print(y_test_np.shape)
     
     majority_valid_indices = np.asarray(np.where(y_valid_np == 0)).flatten()
     minority_valid_indices = np.asarray(np.where(y_valid_np == 1)).flatten()                 
-    #minority_valid_size = round(len(minority_valid_indices)*0.1)
-    #minority_valid_indices = np.random.choice(np.asarray((np.where(y_valid_np == 1))).flatten(),size = minority_valid_size)
-    print("yVALID: ")
-    print(y_valid_np.shape)
     
     #using same indices from Numpy, but on tensor imported data
     train_data_tensor = torch.cat((x_train,y_train[...,None]),-1)
