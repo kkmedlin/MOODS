@@ -115,6 +115,5 @@ class Basic_DNN(nn.Module):
                 self.optimizer.step()   
             epochs = epochs + 1
         return norm2Gradient
-    
-# need ot make a change for NeurIPS
+
     
