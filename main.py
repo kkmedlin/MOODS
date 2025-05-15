@@ -6,19 +6,19 @@ import numpy as np
 import pandas as pd
 import torch
 
-from data import pytorch_prep, create_imbalanced_samplers, connect4, abalone, spamBase, shuttle
-#from smallData import pytorch_prep, create_imbalanced_samplers, smoteGANdata
+#from data import pytorch_prep, create_imbalanced_samplers, connect4, abalone, spamBase, shuttle
+from smallData import pytorch_prep, create_imbalanced_samplers, smoteGANdata
 from moods import MOODS
 
 array = [  
-        abalone(),
+        #abalone(),
         #spamBase(),
         #connect4(),
         #shuttle(),
-        #smoteGANdata()  #option: 0 for Pageblocks, 1 for Ecoli, 2 for Poker, 3 for Wine, 4 for yeast
+        smoteGANdata()  #option: 0 for Pageblocks, 1 for Ecoli, 2 for Poker, 3 for Wine, 4 for yeast
 ]
 
-title = [ 'Abalone' ]
+title = [ 'Ecoli' ]
  
 for (i,element) in enumerate(array):        
         #setting up train/test data for classification
