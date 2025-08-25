@@ -1,5 +1,5 @@
 # MOODS
-The goal of MOODS is to improve the classification despite imbalanced training data. MOODS leverages a multi-objective bilevel optimization framework to find an optimal subsample of traininng data to mitigate model bias, decrease overlap, and increase feature diversity. So far, MOODS has been successfully deployed on 7 benchmark imbalanced datasets.
+The goal of MOODS is to improve the classification despite imbalanced training data marred by the low representation of the minority class. To achieve its objective, MOODS leverages a multi-objective bilevel optimization framework to find an optimal subsample of traininng data able to mitigate model bias. So far, MOODS has been successfully deployed on 7 benchmark imbalanced datasets.
 
 Five code files:
 
