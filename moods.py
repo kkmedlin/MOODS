@@ -11,7 +11,7 @@ import math
 import matplotlib.pyplot as plt
 
 #from smallDataValid import Our_Dataset
-from dataValid import Our_Dataset
+from data import Our_Dataset
 from model import Basic_DNN
 from collections import Counter
 
