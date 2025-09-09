@@ -1,4 +1,4 @@
-# MOODS
+# MOODS (Multi-Objective Optimization for Data Sampling)
 The goal of MOODS is to improve the classification of imbalanced data marred by the low representation of its minority class. To achieve its objective, MOODS resamples data. It leverages a multi-objective bilevel optimization framework to guide both synthetic oversampling and majority undersampling and find an optimal subsample of data able to, ultimately, mitigate model bias. So far, MOODS has been successfully deployed on 7 benchmark imbalanced datasets achieving F1 scores results up to 15% over SOTA.
 
 Five code files:
